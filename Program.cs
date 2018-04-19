@@ -30,6 +30,7 @@ namespace ScreenContentExporter
         public static long JPEGQuality = 20L;
         static string shipUUID = "18c549f7-5254-44e7-8842-7ff7c3ba839f";  //This Pod is a SHIP
         static BabylonMS.BabylonMS bms;
+        static int live = 100; //   x/3  sec for starting after shutdown (100=about 30sec)
 
         static IntPtr hwnd;
         static bool datavalid;
@@ -94,7 +95,12 @@ namespace ScreenContentExporter
                 }
                 else
                 {
-                    Thread.Sleep(300);                    
+                    Thread.Sleep(300);
+                    live--;
+                    if (live < 0)
+                    {
+                        Disconnected(null); //exit
+                    }
                 }
             }
         }
